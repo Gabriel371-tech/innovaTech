@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inovatech | Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Inovatech - Gestão Acadêmica</h1>
+    </header>
+    <nav>
+        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/alunos/listar}">Alunos</a>
+        <a th:href="@{/cursos/listar}">Cursos</a>
+    </nav>
+
+    <main class="container">
+        <div class="card" style="text-align: center;">
+            <h2>Bem-vindo ao Sistema Inovatech</h2>
+            <p style="margin: 1.5rem 0;">Utilize o menu acima para gerenciar os cadastros de alunos e cursos da instituição.</p>
+            <div style="display: flex; justify-content: center; gap: 20px;">
+                <a th:href="@{/alunos/listar}" class="btn btn-primary">Gerenciar Alunos</a>
+                <a th:href="@{/cursos/listar}" class="btn btn-secondary" style="background-color: var(--secondary-color); color: white;">Gerenciar Cursos</a>
+            </div>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; color: #7f8c8d; font-size: 0.9rem;">
+        &copy; 2026 Faculdade Inovatech. Todos os direitos reservados.
+    </footer>
+</body>
+</html>

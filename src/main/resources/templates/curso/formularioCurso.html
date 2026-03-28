@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inovatech | Curso</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Cadastro de Curso</h1>
+    </header>
+    <nav>
+        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/alunos/listar}">Alunos</a>
+        <a th:href="@{/cursos/listar}">Cursos</a>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <h2 th:text="${curso.idCurso != null ? 'Editar Curso' : 'Novo Curso'}">Formulário de Cursos</h2>
+            <form th:action="@{/cursos/salvar}" method="post" th:object="${curso}" style="margin-top: 1.5rem;">
+                <input type="hidden" th:field="*{idCurso}" />
+
+                <div class="form-group">
+                    <label for="nomeCurso">Nome do Curso:</label>
+                    <input type="text" id="nomeCurso" th:field="*{nomeCurso}" required placeholder="Ex: Engenharia de Software">
+                </div>
+
+                <div class="form-group">
+                    <label for="cargaHorariaCurso">Carga Horária (Horas):</label>
+                    <input type="number" id="cargaHorariaCurso" th:field="*{cargaHorariaCurso}" required placeholder="Ex: 3000">
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-success" style="flex: 1;">Salvar Registro</button>
+                    <a th:href="@{/cursos/listar}" class="btn btn-danger" style="flex: 1;">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

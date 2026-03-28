@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro de Usuários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button, a {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        a.btn-cancelar {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Cadastro de Usuários</h1>
+
+<form th:action="@{/usuarios/salvar}" method="post" th:object="${usuario}">
+
+    <label for="nomeUsuario">Nome</label>
+    <input type="text" id="nomeUsuario" th:field="*{nomeUsuario}" placeholder="Nome completo" required />
+
+    <label for="emailUsuario">E-mail</label>
+    <input type="email" id="emailUsuario" th:field="*{emailUsuario}" placeholder="email@exemplo.com" required />
+
+    <label for="senhaUsuario">Senha</label>
+    <input type="password" id="senhaUsuario" th:field="*{senhaUsuario}" placeholder="Senha" required />
+
+    <label for="roleStatus">Perfil</label>
+    <select id="roleStatus" th:field="*{roleStatus}" required>
+        <option value="">Selecione...</option>
+        <option value="ROLE_ADMIN">Administrador</option>
+        <option value="ROLE_PROFESSOR">Professor</option>
+        <option value="ROLE_ALUNO">Aluno</option>
+    </select>
+
+    <label>
+        <input type="checkbox" th:field="*{ativo}" /> Usuário ativo
+    </label>
+
+    <div class="btn-group">
+        <a href="/usuarios" class="btn-cancelar">Cancelar</a>
+        <button type="submit">Salvar</button>
+    </div>
+
+</form>
+
+</body>
+</html>

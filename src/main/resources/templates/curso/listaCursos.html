@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inovatech | Cursos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Gestão de Cursos</h1>
+    </header>
+    <nav>
+        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/alunos/listar}">Alunos</a>
+        <a th:href="@{/cursos/listar}">Cursos</a>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>Lista de Cursos</h2>
+                <a th:href="@{/cursos/criar}" class="btn btn-success">Novo Curso</a>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome do Curso</th>
+                        <th>Carga Horária (h)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="curso : ${cursos}">
+                        <td th:text="${curso.nomeCurso}"></td>
+                        <td th:text="${curso.cargaHorariaCurso}"></td>
+                        <td>
+                            <div class="actions">
+                                <a th:href="@{/cursos/editar/{id}(id=${curso.idCurso})}" class="btn btn-primary btn-sm">Editar</a>
+                                <a th:href="@{/cursos/excluir/{id}(id=${curso.idCurso})}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Tem certeza que deseja excluir este curso?')">Excluir</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(cursos)}">
+                        <td colspan="3" style="text-align: center;">Nenhum curso cadastrado.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

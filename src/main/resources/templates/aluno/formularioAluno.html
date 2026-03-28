@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inovatech | Aluno</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Cadastro de Aluno</h1>
+    </header>
+    <nav>
+        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/alunos/listar}">Alunos</a>
+        <a th:href="@{/cursos/listar}">Cursos</a>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <h2 th:text="${aluno.idAluno != null ? 'Editar Aluno' : 'Novo Aluno'}">Formulário de Alunos</h2>
+            <form th:action="@{/alunos/salvar}" method="post" th:object="${aluno}" style="margin-top: 1.5rem;">
+                <input type="hidden" th:field="*{idAluno}" />
+
+                <div class="form-group">
+                    <label for="nomeAluno">Nome Completo:</label>
+                    <input type="text" id="nomeAluno" th:field="*{nomeAluno}" required placeholder="Ex: João Silva">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="emailAluno">Email:</label>
+                        <input type="email" id="emailAluno" th:field="*{emailAluno}" placeholder="joao@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefoneAluno">Telefone:</label>
+                        <input type="text" id="telefoneAluno" th:field="*{telefoneAluno}" required placeholder="(00) 00000-0000">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="cpfAluno">CPF:</label>
+                        <input type="text" id="cpfAluno" th:field="*{cpfAluno}" required placeholder="000.000.000-00">
+                    </div>
+                    <div class="form-group">
+                        <label for="cidadeAluno">Cidade:</label>
+                        <input type="text" id="cidadeAluno" th:field="*{cidadeAluno}" required placeholder="Ex: São Paulo">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="enderecoAluno">Endereço:</label>
+                    <input type="text" id="enderecoAluno" th:field="*{enderecoAluno}" required placeholder="Rua, Número, Bairro">
+                </div>
+
+                <div class="form-group">
+                    <label for="curso">Curso:</label>
+                    <select id="curso" th:field="*{curso}" required>
+                        <option value="" disabled selected>Selecione um curso</option>
+                        <option th:each="c : ${cursos}" th:value="${c.idCurso}" th:text="${c.nomeCurso}"></option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-success" style="flex: 1;">Salvar Registro</button>
+                    <a th:href="@{/alunos/listar}" class="btn btn-danger" style="flex: 1;">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
