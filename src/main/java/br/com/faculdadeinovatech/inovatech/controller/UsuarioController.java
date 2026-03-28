@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+
+    // Spring automaticamente injeta o UsuarioService aqui
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     @GetMapping("/criar")
     public String criarForm(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "formularioUsuario";
+        return "usuario/formularioUsuario";
     }
 
     @PostMapping("/salvar")
@@ -23,6 +28,7 @@ public class UsuarioController {
         usuarioService.salvar(usuario);
         return "redirect:/usuarios/listar";
     }
-
-
 }
+
+
+

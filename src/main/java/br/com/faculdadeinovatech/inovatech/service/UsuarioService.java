@@ -4,6 +4,7 @@ import br.com.faculdadeinovatech.inovatech.entity.Usuario;
 import br.com.faculdadeinovatech.inovatech.entity.Usuario.RoleStatus;
 import br.com.faculdadeinovatech.inovatech.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +13,14 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
+    private final UsuarioRepository usuarioRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
 
     // Listar todos os usuários
     public List<Usuario> listarTodos() {
@@ -51,6 +58,7 @@ public class UsuarioService {
             throw new RuntimeException("Já existe um usuário cadastrado com o e-mail: " + usuario.getEmailUsuario());
         }
         usuario.setAtivo(true);
+        usuario.setSenhaUsuario(passwordEncoder.encode(usuario.getSenhaUsuario())); // criptografa senha
         return usuarioRepository.save(usuario);
     }
 
@@ -66,9 +74,13 @@ public class UsuarioService {
 
         usuarioExistente.setNomeUsuario(usuarioAtualizado.getNomeUsuario());
         usuarioExistente.setEmailUsuario(usuarioAtualizado.getEmailUsuario());
-        usuarioExistente.setSenhaUsuario(usuarioAtualizado.getSenhaUsuario());
         usuarioExistente.setRoleStatus(usuarioAtualizado.getRoleStatus());
         usuarioExistente.setAtivo(usuarioAtualizado.getAtivo());
+
+        // Atualiza senha somente se não estiver vazia
+        if (usuarioAtualizado.getSenhaUsuario() != null && !usuarioAtualizado.getSenhaUsuario().isBlank()) {
+            usuarioExistente.setSenhaUsuario(passwordEncoder.encode(usuarioAtualizado.getSenhaUsuario()));
+        }
 
         return usuarioRepository.save(usuarioExistente);
     }
@@ -78,11 +90,11 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + id));
 
-        if (!senhaAtual.equals(usuario.getSenhaUsuario())) {
+        if (!passwordEncoder.matches(senhaAtual, usuario.getSenhaUsuario())) {
             throw new RuntimeException("Senha atual incorreta.");
         }
 
-        usuario.setSenhaUsuario(novaSenha);
+        usuario.setSenhaUsuario(passwordEncoder.encode(novaSenha));
         usuarioRepository.save(usuario);
     }
 
