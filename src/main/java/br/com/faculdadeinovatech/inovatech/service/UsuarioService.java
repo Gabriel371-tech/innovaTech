@@ -4,7 +4,7 @@ import br.com.faculdadeinovatech.inovatech.entity.Usuario;
 import br.com.faculdadeinovatech.inovatech.entity.Usuario.RoleStatus;
 import br.com.faculdadeinovatech.inovatech.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Listar todos os usuários
@@ -111,5 +111,29 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + id));
         usuarioRepository.delete(usuario);
+    }
+
+    // Gerar token de reset de senha
+    public void updateResetPasswordToken(String token, String email) {
+        Usuario usuario = usuarioRepository.findByEmailUsuario(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o e-mail: " + email));
+        usuario.setResetPasswordToken(token);
+        usuario.setResetPasswordTokenExpiry(java.time.LocalDateTime.now().plusHours(1)); // Expira em 1 hora
+        usuarioRepository.save(usuario);
+    }
+
+    // Buscar usuário pelo token de reset e verificar expiração
+    public Optional<Usuario> getByResetPasswordToken(String token) {
+        return usuarioRepository.findByResetPasswordToken(token)
+                .filter(u -> u.getResetPasswordTokenExpiry() != null &&
+                        u.getResetPasswordTokenExpiry().isAfter(java.time.LocalDateTime.now()));
+    }
+
+    // Atualizar senha via token
+    public void updatePassword(Usuario usuario, String novaSenha) {
+        usuario.setSenhaUsuario(passwordEncoder.encode(novaSenha));
+        usuario.setResetPasswordToken(null);
+        usuario.setResetPasswordTokenExpiry(null);
+        usuarioRepository.save(usuario);
     }
 }

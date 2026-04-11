@@ -16,7 +16,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // simplificando
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/inovatech", "/usuarios/criar", "/usuarios/salvar").permitAll()
+                        .requestMatchers("/login", "/inovatech", "/usuarios/criar", "/usuarios/salvar", "/forgot_password", "/reset_password").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

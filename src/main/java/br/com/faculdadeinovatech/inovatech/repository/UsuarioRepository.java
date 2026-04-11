@@ -21,4 +21,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     List<Usuario> findByAtivo(Boolean ativo);
 
     boolean existsByEmailUsuario(String emailUsuario);
+
+    Optional<Usuario> findByResetPasswordToken(String resetPasswordToken);
 }

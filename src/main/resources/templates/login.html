@@ -93,8 +93,11 @@
         Você saiu do sistema com sucesso.
     </div>
 
-    <label for="emailUsuario">E-mail</label>
-    <input type="email" id="emailUsuario" name="username" placeholder="email@exemplo.com" required />
+    <div th:if="${message}" class="msg-logout" th:text="${message}"></div>
+    <div th:if="${error}" class="msg-erro" th:text="${error}"></div>
+
+    <label for="emailUsuario">Endereço eletrônico</label>
+    <input type="email" id="emailUsuario" name="username" placeholder="usuario@exemplo.com" required />
 
     <label for="senhaUsuario">Senha</label>
     <input type="password" id="senhaUsuario" name="password" placeholder="Senha" required />
@@ -102,7 +105,10 @@
     <button type="submit">Entrar</button>
 
     <span class="link-cadastro">
-            Não tem conta? <a th:href=@{/usuarios/criar}>Cadastre-se</a>
+            Não tem conta? <a th:href="@{/usuarios/criar}">Cadastre-se</a>
+        </span>
+    <span class="link-cadastro">
+            <a th:href="@{/forgot_password}">Esqueceu a senha?</a>
         </span>
 
 </form>
