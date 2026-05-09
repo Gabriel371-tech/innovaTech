@@ -9,80 +9,57 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/professores")
 public class ProfessorController {
 
     @Autowired
     private ProfessorService professorService;
 
-    // GET /professores — lista todos
-    @GetMapping
-    public ResponseEntity<List<Professor>> listarTodos() {
+    @Autowired
+    private CursoService cursoService;
+
+    // GET /professores/listar — lista todos
+    @GetMapping("/listar")
+    public String listar(Model model) {
         List<Professor> professores = professorService.listarTodos();
-        return ResponseEntity.ok(professores);
+        model.addAttribute("professores", professores);
+        return "professor/listaProfessores";
     }
 
-    // GET /professores/{id} — busca por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Professor> buscarPorId(@PathVariable Integer id) {
-        return professorService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    // GET /professores/criar — abre formulário de cadastro
+    @GetMapping("/criar")
+    public String criarForm(Model model) {
+        model.addAttribute("professor", new Professor());
+        model.addAttribute("cursos", cursoService.findAll());
+        return "professor/formularioProfessor";
     }
 
-    // GET /professores/cpf/{cpf} — busca por CPF
-    @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<Professor> buscarPorCpf(@PathVariable String cpf) {
-        return professorService.buscarPorCpf(cpf)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    // GET /professores/nome?nome=... — busca por nome
-    @GetMapping("/nome")
-    public ResponseEntity<List<Professor>> buscarPorNome(@RequestParam String nome) {
-        List<Professor> professores = professorService.buscarPorNome(nome);
-        return ResponseEntity.ok(professores);
-    }
-
-    // GET /professores/curso/{idCurso} — busca por curso
-    @GetMapping("/curso/{idCurso}")
-    public ResponseEntity<List<Professor>> buscarPorCurso(@PathVariable Integer idCurso) {
-        List<Professor> professores = professorService.buscarPorCurso(idCurso);
-        return ResponseEntity.ok(professores);
-    }
-
-    // POST /professores — cadastra novo professor
-    @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody Professor professor) {
-        try {
-            Professor salvo = professorService.salvar(professor);
-            return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    // POST /professores/salvar — salva ou atualiza professor
+    @PostMapping("/salvar")
+    public String salvar(@ModelAttribute Professor professor) {
+        if (professor.getIdProfessor() != null) {
+            professorService.atualizar(professor.getIdProfessor(), professor);
+        } else {
+            professorService.salvar(professor);
         }
+        return "redirect:/professores/listar";
     }
 
-    // PUT /professores/{id} — atualiza professor
-    @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Integer id, @RequestBody Professor professor) {
-        try {
-            Professor atualizado = professorService.atualizar(id, professor);
-            return ResponseEntity.ok(atualizado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    // GET /professores/editar/{id} — abre formulário de edição
+    @GetMapping("/editar/{id}")
+    public String editarForm(@PathVariable Integer id, Model model) {
+        Professor professor = professorService.buscarPorId(id)
+                .orElseThrow(() -> new RuntimeException("Professor não encontrado"));
+        model.addAttribute("professor", professor);
+        model.addAttribute("cursos", cursoService.findAll());
+        return "professor/formularioProfessor";
     }
 
-    // DELETE /professores/{id} — remove professor
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable Integer id) {
-        try {
-            professorService.deletar(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    // GET /professores/excluir/{id} — remove professor
+    @GetMapping("/excluir/{id}")
+    public String deletar(@PathVariable Integer id) {
+        professorService.deletar(id);
+        return "redirect:/professores/listar";
     }
 }

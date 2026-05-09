@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inovatech | Cursos</title>
+    <title>Inovatech | Disciplinas</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <header>
-        <h1>Gestão de Cursos</h1>
+        <h1>Gestão de Disciplinas</h1>
     </header>
     <nav>
         <a th:href="@{/inovatech}">Início</a>
@@ -16,40 +16,42 @@
         <a th:href="@{/cursos/listar}">Cursos</a>
         <a th:href="@{/professores/listar}">Professores</a>
         <a th:href="@{/disciplinas/listar}">Disciplinas</a>
-        <a th:href="@{/produtos/listar}">Produtos</a>
-        <a th:href="@{/pedidos/listar}">Pedidos</a>
     </nav>
 
     <main class="container">
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h2>Lista de Cursos</h2>
-                <a th:href="@{/cursos/criar}" class="btn btn-success">Novo Curso</a>
+                <h2>Lista de Disciplinas</h2>
+                <a th:href="@{/disciplinas/criar}" class="btn btn-success">Nova Disciplina</a>
             </div>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Nome do Curso</th>
+                        <th>Nome da Disciplina</th>
                         <th>Carga Horária (h)</th>
+                        <th>Curso</th>
+                        <th>Professor</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="curso : ${cursos}">
-                        <td th:text="${curso.nomeCurso}"></td>
-                        <td th:text="${curso.cargaHorariaCurso}"></td>
+                    <tr th:each="disciplina : ${disciplinas}">
+                        <td th:text="${disciplina.nomeDisciplina}"></td>
+                        <td th:text="${disciplina.cargaHoraria}"></td>
+                        <td th:text="${disciplina.curso != null ? disciplina.curso.nomeCurso : 'N/A'}"></td>
+                        <td th:text="${disciplina.professor != null ? disciplina.professor.nomeProfessor : 'N/A'}"></td>
                         <td>
                             <div class="actions">
-                                <a th:href="@{/cursos/editar/{id}(id=${curso.idCurso})}" class="btn btn-primary btn-sm">Editar</a>
-                                <a th:href="@{/cursos/excluir/{id}(id=${curso.idCurso})}" 
+                                <a th:href="@{/disciplinas/editar/{id}(id=${disciplina.idDisciplina})}" class="btn btn-primary btn-sm">Editar</a>
+                                <a th:href="@{/disciplinas/excluir/{id}(id=${disciplina.idDisciplina})}" 
                                    class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Tem certeza que deseja excluir este curso?')">Excluir</a>
+                                   onclick="return confirm('Tem certeza que deseja excluir esta disciplina?')">Excluir</a>
                             </div>
                         </td>
                     </tr>
-                    <tr th:if="${#lists.isEmpty(cursos)}">
-                        <td colspan="3" style="text-align: center;">Nenhum curso cadastrado.</td>
+                    <tr th:if="${#lists.isEmpty(disciplinas)}">
+                        <td colspan="5" style="text-align: center;">Nenhuma disciplina cadastrada.</td>
                     </tr>
                 </tbody>
             </table>

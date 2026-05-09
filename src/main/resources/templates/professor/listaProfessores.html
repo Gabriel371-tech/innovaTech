@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inovatech | Alunos</title>
+    <title>Inovatech | Professores</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <header>
-        <h1>Gestão de Alunos</h1>
+        <h1>Gestão de Professores</h1>
     </header>
     <nav>
         <a th:href="@{/inovatech}">Início</a>
@@ -16,48 +16,46 @@
         <a th:href="@{/cursos/listar}">Cursos</a>
         <a th:href="@{/professores/listar}">Professores</a>
         <a th:href="@{/disciplinas/listar}">Disciplinas</a>
-        <a th:href="@{/produtos/listar}">Produtos</a>
-        <a th:href="@{/pedidos/listar}">Pedidos</a>
     </nav>
 
     <main class="container">
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h2>Lista de Alunos</h2>
-                <a th:href="@{/alunos/criar}" class="btn btn-success">Novo Aluno</a>
+                <h2>Lista de Professores</h2>
+                <a th:href="@{/professores/criar}" class="btn btn-success">Novo Professor</a>
             </div>
             
             <table>
                 <thead>
                     <tr>
                         <th>Nome</th>
+                        <th>Especialidade</th>
                         <th>Email</th>
                         <th>Telefone</th>
                         <th>CPF</th>
-                        <th>Cidade</th>
                         <th>Curso</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="aluno : ${alunos}">
-                        <td th:text="${aluno.nomeAluno}"></td>
-                        <td th:text="${aluno.emailAluno}"></td>
-                        <td th:text="${aluno.telefoneAluno}"></td>
-                        <td th:text="${aluno.cpfAluno}"></td>
-                        <td th:text="${aluno.cidadeAluno}"></td>
-                        <td th:text="${aluno.curso != null ? aluno.curso.nomeCurso : 'N/A'}"></td>
+                    <tr th:each="professor : ${professores}">
+                        <td th:text="${professor.nomeProfessor}"></td>
+                        <td th:text="${professor.especialidade}"></td>
+                        <td th:text="${professor.emailProfessor}"></td>
+                        <td th:text="${professor.telefoneProfessor}"></td>
+                        <td th:text="${professor.cpfProfessor}"></td>
+                        <td th:text="${professor.curso != null ? professor.curso.nomeCurso : 'N/A'}"></td>
                         <td>
                             <div class="actions">
-                                <a th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}" class="btn btn-primary btn-sm">Editar</a>
-                                <a th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}" 
+                                <a th:href="@{/professores/editar/{id}(id=${professor.idProfessor})}" class="btn btn-primary btn-sm">Editar</a>
+                                <a th:href="@{/professores/excluir/{id}(id=${professor.idProfessor})}" 
                                    class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Tem certeza que deseja excluir este aluno?')">Excluir</a>
+                                   onclick="return confirm('Tem certeza que deseja excluir este professor?')">Excluir</a>
                             </div>
                         </td>
                     </tr>
-                    <tr th:if="${#lists.isEmpty(alunos)}">
-                        <td colspan="7" style="text-align: center;">Nenhum aluno cadastrado.</td>
+                    <tr th:if="${#lists.isEmpty(professores)}">
+                        <td colspan="7" style="text-align: center;">Nenhum professor cadastrado.</td>
                     </tr>
                 </tbody>
             </table>

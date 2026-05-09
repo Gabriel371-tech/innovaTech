@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inovatech | Novo Pedido</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .item-row { border-bottom: 1px solid #eee; padding: 10px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestão de Pedidos</h1>
+    </header>
+    <nav>
+        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/pedidos/listar}">Voltar para Lista</a>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <h2>Novo Pedido</h2>
+            
+            <form th:action="@{/pedidos/salvar}" th:object="${pedido}" method="post" id="pedidoForm">
+                <div class="form-group">
+                    <label for="aluno">Aluno (Comprador)</label>
+                    <select id="aluno" th:field="*{aluno}" required>
+                        <option value="">Selecione um aluno...</option>
+                        <option th:each="aluno : ${alunos}" 
+                                th:value="${aluno.idAluno}" 
+                                th:text="${aluno.nomeAluno}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <h3>Itens do Pedido</h3>
+                    <div id="itensContainer">
+                        <!-- Primeira linha de item -->
+                        <div class="item-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr 0.5fr; gap: 1rem; align-items: end; margin-bottom: 0.5rem;">
+                            <div>
+                                <label>Produto</label>
+                                <select name="itens[0].produto" required>
+                                    <option value="">Selecione...</option>
+                                    <option th:each="prod : ${produtos}" 
+                                            th:value="${prod.idProduto}" 
+                                            th:data-preco="${prod.precoProduto}"
+                                            th:text="${prod.nomeProduto + ' (R$ ' + prod.precoProduto + ')'}"></option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Quantidade</label>
+                                <input type="number" name="itens[0].quantidade" value="1" min="1" required>
+                            </div>
+                            <div>
+                                <label>Preço Unit.</label>
+                                <input type="number" name="itens[0].precoUnitario" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary">Finalizar Pedido</button>
+                    <a th:href="@{/pedidos/listar}" class="btn btn-secondary" style="text-decoration: none; padding: 0.8rem 1.5rem; display: inline-block;">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Script simples para preencher o preço unitário ao selecionar o produto
+        document.addEventListener('change', function(e) {
+            if (e.target.tagName === 'SELECT' && e.target.name.includes('produto')) {
+                const option = e.target.options[e.target.selectedIndex];
+                const preco = option.getAttribute('data-preco');
+                const row = e.target.closest('.item-row');
+                const precoInput = row.querySelector('input[name*="precoUnitario"]');
+                if (preco) precoInput.value = preco;
+            }
+        });
+    </script>
+</body>
+</html>

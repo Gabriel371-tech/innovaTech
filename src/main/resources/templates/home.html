@@ -14,15 +14,23 @@
         <a th:href="@{/inovatech}">Início</a>
         <a th:href="@{/alunos/listar}">Alunos</a>
         <a th:href="@{/cursos/listar}">Cursos</a>
+        <a th:href="@{/professores/listar}">Professores</a>
+        <a th:href="@{/disciplinas/listar}">Disciplinas</a>
+        <a th:href="@{/produtos/listar}">Produtos</a>
+        <a th:href="@{/pedidos/listar}">Pedidos</a>
     </nav>
 
     <main class="container">
         <div class="card" style="text-align: center;">
             <h2>Bem-vindo ao Sistema Inovatech</h2>
-            <p style="margin: 1.5rem 0;">Utilize o menu acima para gerenciar os cadastros de alunos e cursos da instituição.</p>
-            <div style="display: flex; justify-content: center; gap: 20px;">
-                <a th:href="@{/alunos/listar}" class="btn btn-primary">Gerenciar Alunos</a>
-                <a th:href="@{/cursos/listar}" class="btn btn-secondary" style="background-color: var(--secondary-color); color: white;">Gerenciar Cursos</a>
+            <p style="margin: 1.5rem 0;">Utilize o menu acima para gerenciar os cadastros da instituição.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; max-width: 800px; margin: 0 auto;">
+                <a th:href="@{/alunos/listar}" class="btn btn-primary">Alunos</a>
+                <a th:href="@{/cursos/listar}" class="btn btn-secondary" style="background-color: var(--secondary-color); color: white;">Cursos</a>
+                <a th:href="@{/professores/listar}" class="btn btn-success">Professores</a>
+                <a th:href="@{/disciplinas/listar}" class="btn btn-primary" style="background-color: #673ab7;">Disciplinas</a>
+                <a th:href="@{/produtos/listar}" class="btn btn-warning" style="background-color: #ff9800; color: white;">Produtos</a>
+                <a th:href="@{/pedidos/listar}" class="btn btn-danger" style="background-color: #e91e63;">Pedidos</a>
             </div>
         </div>
     </main>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inovatech | Pedidos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Gestão de Pedidos</h1>
+    </header>
+    <nav>
+        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/alunos/listar}">Alunos</a>
+        <a th:href="@{/cursos/listar}">Cursos</a>
+        <a th:href="@{/professores/listar}">Professores</a>
+        <a th:href="@{/disciplinas/listar}">Disciplinas</a>
+        <a th:href="@{/produtos/listar}">Produtos</a>
+        <a th:href="@{/pedidos/listar}">Pedidos</a>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>Lista de Pedidos</h2>
+                <a th:href="@{/pedidos/criar}" class="btn btn-success">Novo Pedido</a>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Aluno</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pedido : ${pedidos}">
+                        <td th:text="${pedido.idPedido}"></td>
+                        <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${pedido.aluno != null ? pedido.aluno.nomeAluno : 'N/A'}"></td>
+                        <td>
+                            <span th:text="${pedido.statusPedido}" 
+                                  th:classappend="${pedido.statusPedido == 'CONCLUIDO' ? 'badge-success' : (pedido.statusPedido == 'CANCELADO' ? 'badge-danger' : 'badge-warning')}"></span>
+                        </td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(pedido.totalPedido, 1, 2, 'COMMA')}"></td>
+                        <td>
+                            <div class="actions">
+                                <a th:href="@{/pedidos/detalhes/{id}(id=${pedido.idPedido})}" class="btn btn-primary btn-sm">Detalhes</a>
+                                <a th:href="@{/pedidos/excluir/{id}(id=${pedido.idPedido})}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Tem certeza que deseja excluir este pedido?')">Excluir</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(pedidos)}">
+                        <td colspan="6" style="text-align: center;">Nenhum pedido realizado.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

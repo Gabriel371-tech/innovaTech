@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inovatech | Detalhes do Pedido</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Detalhes do Pedido #<span th:text="${pedido.idPedido}"></span></h1>
+    </header>
+    <nav>
+        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/pedidos/listar}">Voltar para Lista</a>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+                <div>
+                    <p><strong>Aluno:</strong> <span th:text="${pedido.aluno != null ? pedido.aluno.nomeAluno : 'N/A'}"></span></p>
+                    <p><strong>Data:</strong> <span th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></span></p>
+                    <p><strong>Status:</strong> <span th:text="${pedido.statusPedido}"></span></p>
+                </div>
+                <div style="text-align: right;">
+                    <form th:action="@{/pedidos/atualizar-status/{id}(id=${pedido.idPedido})}" method="post">
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="PENDENTE" th:selected="${pedido.statusPedido == 'PENDENTE'}">PENDENTE</option>
+                            <option value="CONCLUIDO" th:selected="${pedido.statusPedido == 'CONCLUIDO'}">CONCLUÍDO</option>
+                            <option value="CANCELADO" th:selected="${pedido.statusPedido == 'CANCELADO'}">CANCELADO</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            <h3>Itens do Pedido</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Qtd</th>
+                        <th>Preço Unit.</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${pedido.itens}">
+                        <td th:text="${item.produto.nomeProduto}"></td>
+                        <td th:text="${item.quantidade}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(item.precoUnitario, 1, 2, 'COMMA')}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(item.precoUnitario * item.quantidade, 1, 2, 'COMMA')}"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" style="text-align: right;">TOTAL:</th>
+                        <th th:text="${'R$ ' + #numbers.formatDecimal(pedido.totalPedido, 1, 2, 'COMMA')}"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

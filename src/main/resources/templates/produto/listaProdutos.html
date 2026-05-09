@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inovatech | Alunos</title>
+    <title>Inovatech | Produtos</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <header>
-        <h1>Gestão de Alunos</h1>
+        <h1>Gestão de Produtos</h1>
     </header>
     <nav>
         <a th:href="@{/inovatech}">Início</a>
@@ -23,41 +23,35 @@
     <main class="container">
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h2>Lista de Alunos</h2>
-                <a th:href="@{/alunos/criar}" class="btn btn-success">Novo Aluno</a>
+                <h2>Lista de Produtos</h2>
+                <a th:href="@{/produtos/criar}" class="btn btn-success">Novo Produto</a>
             </div>
             
             <table>
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Email</th>
-                        <th>Telefone</th>
-                        <th>CPF</th>
-                        <th>Cidade</th>
-                        <th>Curso</th>
+                        <th>Preço</th>
+                        <th>Estoque</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="aluno : ${alunos}">
-                        <td th:text="${aluno.nomeAluno}"></td>
-                        <td th:text="${aluno.emailAluno}"></td>
-                        <td th:text="${aluno.telefoneAluno}"></td>
-                        <td th:text="${aluno.cpfAluno}"></td>
-                        <td th:text="${aluno.cidadeAluno}"></td>
-                        <td th:text="${aluno.curso != null ? aluno.curso.nomeCurso : 'N/A'}"></td>
+                    <tr th:each="produto : ${produtos}">
+                        <td th:text="${produto.nomeProduto}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(produto.precoProduto, 1, 2, 'COMMA')}"></td>
+                        <td th:text="${produto.estoqueProduto}"></td>
                         <td>
                             <div class="actions">
-                                <a th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}" class="btn btn-primary btn-sm">Editar</a>
-                                <a th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}" 
+                                <a th:href="@{/produtos/editar/{id}(id=${produto.idProduto})}" class="btn btn-primary btn-sm">Editar</a>
+                                <a th:href="@{/produtos/excluir/{id}(id=${produto.idProduto})}" 
                                    class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Tem certeza que deseja excluir este aluno?')">Excluir</a>
+                                   onclick="return confirm('Tem certeza que deseja excluir este produto?')">Excluir</a>
                             </div>
                         </td>
                     </tr>
-                    <tr th:if="${#lists.isEmpty(alunos)}">
-                        <td colspan="7" style="text-align: center;">Nenhum aluno cadastrado.</td>
+                    <tr th:if="${#lists.isEmpty(produtos)}">
+                        <td colspan="4" style="text-align: center;">Nenhum produto cadastrado.</td>
                     </tr>
                 </tbody>
             </table>
