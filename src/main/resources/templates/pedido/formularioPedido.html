@@ -15,7 +15,13 @@
     </header>
     <nav>
         <a th:href="@{/inovatech}">Início</a>
-        <a th:href="@{/pedidos/listar}">Voltar para Lista</a>
+        <a th:href="@{/alunos/listar}">Alunos</a>
+        <a th:href="@{/cursos/listar}">Cursos</a>
+        <a th:href="@{/professores/listar}">Professores</a>
+        <a th:href="@{/disciplinas/listar}">Disciplinas</a>
+        <a th:href="@{/produtos/listar}">Produtos</a>
+        <a th:href="@{/pedidos/listar}">Pedidos</a>
+        <a th:href="@{/relatorios}">Relatórios</a>
     </nav>
 
     <main class="container">
@@ -40,7 +46,7 @@
                         <div class="item-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr 0.5fr; gap: 1rem; align-items: end; margin-bottom: 0.5rem;">
                             <div>
                                 <label>Produto</label>
-                                <select name="itens[0].produto" required>
+                                <select name="itens[0].produto.idProduto" required>
                                     <option value="">Selecione...</option>
                                     <option th:each="prod : ${produtos}" 
                                             th:value="${prod.idProduto}" 

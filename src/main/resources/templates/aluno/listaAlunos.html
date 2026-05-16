@@ -18,13 +18,17 @@
         <a th:href="@{/disciplinas/listar}">Disciplinas</a>
         <a th:href="@{/produtos/listar}">Produtos</a>
         <a th:href="@{/pedidos/listar}">Pedidos</a>
+        <a th:href="@{/relatorios}">Relatórios</a>
     </nav>
 
     <main class="container">
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 1rem;">
                 <h2>Lista de Alunos</h2>
-                <a th:href="@{/alunos/criar}" class="btn btn-success">Novo Aluno</a>
+                <div style="margin-left: auto; display: flex; gap: 10px;">
+                    <a th:href="@{/relatorios/alunos/pdf}" class="btn btn-secondary">Exportar PDF</a>
+                    <a th:href="@{/alunos/criar}" class="btn btn-success">Novo Aluno</a>
+                </div>
             </div>
             
             <table>
@@ -49,6 +53,7 @@
                         <td th:text="${aluno.curso != null ? aluno.curso.nomeCurso : 'N/A'}"></td>
                         <td>
                             <div class="actions">
+                                <a th:href="@{/relatorios/aluno/{id}/pdf(id=${aluno.idAluno})}" class="btn btn-secondary btn-sm" target="_blank">Ficha PDF</a>
                                 <a th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}" class="btn btn-primary btn-sm">Editar</a>
                                 <a th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}" 
                                    class="btn btn-danger btn-sm"

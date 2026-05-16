@@ -17,19 +17,19 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idProfessor;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 100)
     private String nomeProfessor;
 
-    @Column(length = 30)
+    @Column(length = 50)
     private String emailProfessor;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 20)
     private String telefoneProfessor;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 14)
     private String cpfProfessor;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String cidadeProfessor;
 
     @Column(nullable = false, length = 100)
