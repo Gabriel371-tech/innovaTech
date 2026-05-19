@@ -11,7 +11,7 @@
         <h1>Central de Relatórios</h1>
     </header>
     <nav>
-        <a th:href="@{/inovatech}">Início</a>
+        <a th:href="@{/home}">Início</a>
         <a th:href="@{/alunos/listar}">Alunos</a>
         <a th:href="@{/cursos/listar}">Cursos</a>
         <a th:href="@{/professores/listar}">Professores</a>
@@ -30,7 +30,10 @@
                 <div class="card" style="border: 1px solid #ddd; padding: 1.5rem; text-align: center;">
                     <h3>Lista Geral de Alunos</h3>
                     <p style="font-size: 0.9rem; color: #666; margin: 10px 0;">Relatório completo contendo todos os alunos cadastrados no sistema, incluindo dados de contato e curso.</p>
-                    <a th:href="@{/relatorios/alunos/pdf}" class="btn btn-primary" style="display: block; margin-top: 15px;">Gerar PDF</a>
+                    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                        <a th:href="@{/relatorios/alunos}" class="btn btn-primary">Visualizar Web</a>
+                        <a th:href="@{/relatorios/alunos/pdf}" class="btn btn-secondary">Gerar PDF</a>
+                    </div>
                 </div>
                 
                 <!-- Aqui podem ser adicionados outros tipos de relatórios futuramente -->

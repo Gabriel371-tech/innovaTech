@@ -149,6 +149,11 @@ input:focus, select:focus {
     color: white;
 }
 
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
 .btn-success {
     background-color: var(--success-color);
     color: white;

@@ -32,6 +32,13 @@ public class RelatorioController {
         return "relatorio/relatorios";
     }
 
+    @GetMapping("/alunos")
+    public String relatorioAlunos(Model model) {
+        model.addAttribute("alunos", alunoService.findAll());
+        model.addAttribute("dataEmissao", new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date()));
+        return "relatorio/relatorioAlunos";
+    }
+
     @GetMapping("/alunos/pdf")
     public void exportarAlunosPdf(HttpServletResponse response) throws IOException {
         response.setContentType("application/pdf");
